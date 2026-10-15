@@ -1,5 +1,17 @@
-import React from 'react';
-import { Search, Bookmark, ChevronDown, TrendingUp, TrendingDown, Volume2, User } from 'lucide-react';
+import React, { useState } from 'react';
+import {
+  Search,
+  Bookmark,
+  ChevronDown,
+  TrendingUp,
+  TrendingDown,
+  Headphones,
+  User,
+  CloudSun,
+  Printer,
+  Sparkles,
+  Radio,
+} from 'lucide-react';
 import { StockTicker } from '../types/news';
 
 interface HeaderProps {
@@ -16,6 +28,9 @@ interface HeaderProps {
   userEmail: string;
   isSubscribed: boolean;
   tickers: StockTicker[];
+  onOpenPodcast: () => void;
+  isPrintMode: boolean;
+  onTogglePrintMode: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -32,7 +47,12 @@ export const Header: React.FC<HeaderProps> = ({
   userEmail,
   isSubscribed,
   tickers,
+  onOpenPodcast,
+  isPrintMode,
+  onTogglePrintMode,
 }) => {
+  const [showBreakingAlert, setShowBreakingAlert] = useState(true);
+
   const sections = [
     { name: 'U.S.', id: 'us', hasDropdown: true },
     { name: 'World', id: 'world', hasDropdown: true },
@@ -56,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
         className="flex items-center justify-between text-[11px] pb-2 hairline-b text-[#5a5a5a]"
         data-purpose="utility-bar"
       >
-        {/* Left side: Search & Date & Today's Paper */}
+        {/* Left side: Search & Date & Weather */}
         <div className="flex items-center space-x-3">
           <button
             onClick={onOpenSearch}
@@ -67,12 +87,21 @@ export const Header: React.FC<HeaderProps> = ({
             <Search className="w-3.5 h-3.5" />
           </button>
           <span className="font-bold text-[#121212]">Wednesday, October 16, 2024</span>
+          
           <button
             onClick={() => onSelectSection('all')}
-            className="hover:underline text-[#121212] font-medium"
+            className="hover:underline text-[#121212] font-medium hidden sm:inline"
           >
             Today’s Paper
           </button>
+
+          {/* Local Weather Widget */}
+          <div className="hidden lg:flex items-center space-x-1 text-[10px] text-neutral-600 border-l border-neutral-200 pl-3">
+            <CloudSun className="w-3.5 h-3.5 text-amber-500" />
+            <span>New York <strong>64°F</strong></span>
+          </div>
+
+          {/* Saved Articles Counter */}
           {savedCount > 0 && (
             <button
               onClick={onOpenSavedDrawer}
@@ -118,8 +147,30 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Right side: Subscription & Login Buttons */}
-        <div className="flex items-center space-x-3">
+        {/* Right side: Audio Episode, Print Replica, Subscription & Login Buttons */}
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Podcast trigger button */}
+          <button
+            onClick={onOpenPodcast}
+            className="hidden lg:flex items-center space-x-1 hover:text-black text-neutral-700 transition"
+            title="Listen to The Daily podcast"
+          >
+            <Headphones className="w-3.5 h-3.5 text-[#567b95]" />
+            <span className="font-semibold text-[10px]">The Daily</span>
+          </button>
+
+          {/* Print Replica Toggle */}
+          <button
+            onClick={onTogglePrintMode}
+            className={`hidden sm:flex items-center space-x-1 px-2 py-1 rounded text-[10px] font-medium transition ${
+              isPrintMode ? 'bg-neutral-800 text-white' : 'hover:bg-neutral-100 text-neutral-600'
+            }`}
+            title="Toggle authentic newsprint paper grain & broadsheet rules"
+          >
+            <Printer className="w-3 h-3" />
+            <span>{isPrintMode ? 'Paper: On' : 'Print Mode'}</span>
+          </button>
+
           {!isSubscribed ? (
             <button
               onClick={onOpenSubscribe}
@@ -128,7 +179,7 @@ export const Header: React.FC<HeaderProps> = ({
               Subscribe for $1/week
             </button>
           ) : (
-            <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-1 rounded text-[10px] font-bold uppercase">
+            <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded text-[10px] font-bold uppercase">
               Subscriber Access
             </span>
           )}
@@ -140,7 +191,9 @@ export const Header: React.FC<HeaderProps> = ({
             {isLoggedIn ? (
               <>
                 <User className="w-3 h-3" />
-                <span>Account</span>
+                <span className="truncate max-w-[60px] sm:max-w-none">
+                  {userEmail.split('@')[0]}
+                </span>
               </>
             ) : (
               <span>Log In</span>
@@ -174,8 +227,8 @@ export const Header: React.FC<HeaderProps> = ({
               <li key={sec.id}>
                 <button
                   onClick={() => onSelectSection(sec.id)}
-                  className={`hover:underline flex items-center transition py-0.5 px-1 rounded ${
-                    isActive ? 'font-bold bg-neutral-100 text-black' : ''
+                  className={`hover:underline flex items-center transition py-0.5 px-1.5 rounded ${
+                    isActive ? 'font-bold bg-neutral-900 text-white' : ''
                   }`}
                 >
                   <span>{sec.name}</span>
@@ -190,11 +243,11 @@ export const Header: React.FC<HeaderProps> = ({
       </nav>
 
       {/* Bottom Border hairline rule */}
-      <div className="border-b border-[#121212] mb-3"></div>
+      <div className="border-b border-[#121212] mb-2.5"></div>
 
       {/* Free-to-read Announcement Banner */}
       <div
-        className="py-1 text-center border-b border-[#e2e2e2] mb-4 text-[12px] text-[#5a5a5a] font-serif italic flex items-center justify-center gap-2"
+        className="py-1 text-center border-b border-[#e2e2e2] mb-3 text-[12px] text-[#5a5a5a] font-serif italic flex items-center justify-center gap-2"
         data-purpose="announcement"
       >
         <span>
