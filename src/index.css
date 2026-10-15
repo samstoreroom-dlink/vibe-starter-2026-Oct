@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+@theme {
+  --font-masthead: "UnifrakturCook", Cheltenham, Georgia, serif;
+  --font-nytserif: "Newsreader", "Frank Ruhl Libre", Georgia, serif;
+  --font-headline: "Frank Ruhl Libre", Cheltenham, Georgia, serif;
+  --font-bodytext: "Libre Baskerville", Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --color-nyt-ink: #121212;
+  --color-nyt-gray: #5a5a5a;
+  --color-nyt-lightgray: #727272;
+  --color-nyt-border: #e2e2e2;
+  --color-nyt-darkborder: #121212;
+  --color-nyt-blue: #567b95;
+  --color-nyt-hoverblue: #326891;
+  --color-nyt-badge: #f7f7f7;
+  --color-nyt-accent: #326891;
+}
+
+/* Authentic NYT Editorial Styling */
+.font-nyt-blackletter {
+  font-family: 'UnifrakturCook', 'Cheltenham', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+.headline-leading {
+  line-height: 1.15;
+}
+
+.border-double-bottom {
+  border-bottom: 4px double #121212;
+}
+
+.border-double-top {
+  border-top: 4px double #121212;
+}
+
+.hairline-b {
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.hairline-r {
+  border-right: 1px solid #e2e2e2;
+}
+
+.hairline-l {
+  border-left: 1px solid #e2e2e2;
+}
+
+.hairline-t {
+  border-top: 1px solid #e2e2e2;
+}
+
+/* Custom scrollbars for clean paper aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #fdfdfd;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

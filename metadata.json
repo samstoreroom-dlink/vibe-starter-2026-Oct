@@ -1,0 +1,8 @@
+{
+  "name": "The New York Times - Digital Edition",
+  "description": "Faithful and interactive digital broadsheet edition of The New York Times featuring breaking news, visual spotlights, opinion essays, interactive games (Wordle), recipe guides, and full article reader.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
